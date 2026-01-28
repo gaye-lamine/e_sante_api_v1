@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.git
+.gitignore
+*.md
+jest.config.js
+tsconfig.json
+Dockerfile
+docker-compose.yml
+Jenkinsfile
+coverage
+tests

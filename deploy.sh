@@ -67,13 +67,25 @@ ssh -i "$SSH_KEY" "$SERVER_USER@$SERVER_HOST" << EOF
         # cp .env.example .env
     fi
     
-    # Déploiement via Docker Compose
-    echo "🐳 Lancement des containers avec Docker Compose..."
-    sudo docker-compose up --build -d
+    # Installation des dépendances et Build
+    echo "📦 Installation des dépendances NPM..."
+    npm install --production=false # On a besoin de tsc pour le build
     
-    # Nettoyage des vieilles images pour gagner de l'espace
-    echo "🧹 Nettoyage des anciennes images Docker..."
-    sudo docker image prune -f
+    echo "🏗️ Build de l'application..."
+    npm run build
+    
+    # Vérifier l'existence du fichier .env
+    if [ ! -f ".env" ]; then
+        echo "⚠️ Fichier .env manquant sur le serveur!"
+        echo "💡 Création d'un .env de base (à configurer)..."
+        cp .env.example .env || echo "DATABASE_URL=..." > .env
+    fi
+    
+    # Déploiement via PM2
+    echo "🚀 Lancement/Redémarrage avec PM2..."
+    pm2 delete e-sante-api || true
+    pm2 start dist/server.js --name e-sante-api
+    pm2 save
     
     echo "=== ✅ Déploiement terminé avec succès! ==="
 EOF

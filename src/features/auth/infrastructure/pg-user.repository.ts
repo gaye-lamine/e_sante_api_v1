@@ -35,8 +35,8 @@ export class PgUserRepository implements UserRepository {
             email: row.email,
             passwordHash: row.password_hash,
             createdAt: row.created_at,
-            updated_at: row.updated_at
-        } as any); // Type mapping adjust for domain constructor
+            updatedAt: row.updated_at
+        });
     }
 
     async findById(id: string): Promise<User | null> {
@@ -50,7 +50,7 @@ export class PgUserRepository implements UserRepository {
             email: row.email,
             passwordHash: row.password_hash,
             createdAt: row.created_at,
-            updated_at: row.updated_at
-        } as any);
+            updatedAt: row.updated_at
+        });
     }
 }

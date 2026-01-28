@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { ValidationError } from '../../../shared/errors/app-error';
 
 export type HealthMetricType = 'weight' | 'blood_pressure' | 'glucose';

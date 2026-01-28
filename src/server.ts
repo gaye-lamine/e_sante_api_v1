@@ -8,7 +8,9 @@ const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
     await initializeDatabase();
-    const app = createApp();
+    const { app, schedulerService } = createApp();
+
+    await schedulerService.initialize();
 
     app.listen(PORT, () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);

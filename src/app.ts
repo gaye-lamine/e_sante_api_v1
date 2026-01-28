@@ -11,6 +11,12 @@ import { HealthController } from './features/health_metrics/presentation/health.
 import { HealthService } from './features/health_metrics/application/health.service';
 import { PgHealthMetricRepository } from './features/health_metrics/infrastructure/pg-health.repository';
 
+import { createReminderRouter } from './features/health_metrics/presentation/reminder.router';
+import { ReminderController } from './features/health_metrics/presentation/reminder.controller';
+import { ReminderService } from './features/health_metrics/application/reminder.service';
+import { PgReminderRepository } from './features/health_metrics/infrastructure/pg-reminder.repository';
+import { SchedulerService } from './features/health_metrics/infrastructure/scheduler.service';
+
 export const createApp = () => {
     const app = express();
 
@@ -28,9 +34,15 @@ export const createApp = () => {
     const healthService = new HealthService(healthRepository);
     const healthController = new HealthController(healthService);
 
+    const reminderRepository = new PgReminderRepository();
+    const schedulerService = new SchedulerService(reminderRepository);
+    const reminderService = new ReminderService(reminderRepository, schedulerService);
+    const reminderController = new ReminderController(reminderService);
+
     // Routes
     app.use('/auth', createAuthRouter(authController));
     app.use('/metrics', createHealthRouter(healthController, authService));
+    app.use('/reminders', createReminderRouter(reminderController));
 
     // Health check
     app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
@@ -38,5 +50,5 @@ export const createApp = () => {
     // Error handling
     app.use(errorMiddleware);
 
-    return app;
+    return { app, schedulerService };
 };

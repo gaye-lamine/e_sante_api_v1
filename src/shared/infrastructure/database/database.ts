@@ -38,6 +38,16 @@ export const initializeDatabase = async () => {
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
             );
+
+            CREATE TABLE IF NOT EXISTS reminders (
+                id UUID PRIMARY KEY,
+                user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                metric_type VARCHAR(50) NOT NULL,
+                cron_schedule VARCHAR(50) NOT NULL,
+                is_enabled BOOLEAN DEFAULT true,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
         `);
         console.log('✅ Database schema initialized');
     } catch (error) {

@@ -6,6 +6,10 @@ Une API robuste et sécurisée pour le suivi des métriques de santé, conçue a
 
 - Authentification JWT : Inscription et connexion sécurisées.
 - Gestion des Métriques : Suivi du poids, de la tension artérielle et du taux de glucose.
+- **Rappels Santé (V2)** : Planification dynamique de rappels (Cron) avec relance automatique au démarrage.
+- **Analyses & Tendances (V2)** : Calcul automatique des moyennes et détection de l'évolution (augmentation/baisse).
+- **Export PDF (V2)** : Génération de bilans de santé professionnels téléchargeables.
+- **Notifications (V2)** : Infrastructure multi-canal (Console, prêt pour Email/SMS).
 - Validation stricte : Utilisation de Zod pour garantir l'intégrité des données.
 - Architecture Propre : Séparation claire des responsabilités (Domain, Application, Infrastructure, Presentation).
 - PostgreSQL : Persistance des données avec initialisation automatique du schéma.
@@ -102,7 +106,15 @@ src/
 ### Métriques (Authentifié)
 - `GET /metrics` : Liste toutes les métriques de l'utilisateur.
 - `POST /metrics` : Ajouter une nouvelle métrique (poids, tension, glucose).
+- `GET /metrics/insights` : Récupérer l'analyse des tendances et moyennes.
+- `GET /metrics/export` : Télécharger le rapport de santé au format PDF.
 - `DELETE /metrics/:id` : Supprimer une métrique.
+
+### Rappels (Authentifié)
+- `POST /reminders` : Créer un rappel programmé (format Cron).
+- `GET /reminders` : Lister ses rappels.
+- `PATCH /reminders/:id/toggle` : Activer ou désactiver un rappel.
+- `DELETE /reminders/:id` : Supprimer un rappel.
 
 ## CI/CD
 

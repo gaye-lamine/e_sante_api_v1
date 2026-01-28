@@ -123,12 +123,20 @@ Le projet inclut des configurations robustes pour l'intégration et le déploiem
 - **GitHub Actions** : Automatique sur chaque push et pull request (Lint, Test, Build Docker).
 - **Jenkins** : `Jenkinsfile` prêt pour une infrastructure Jenkins auto-hébergée.
 
-Les étapes automatisées incluent :
-1. Installation des dépendances.
-2. Linting TypeScript.
-3. Tests avec couverture complète.
-4. Build de l'application.
-5. Création de l'image Docker de production.
+## Déploiement
+
+Un script de déploiement automatisé est disponible pour déployer l'API sur un VPS via Docker :
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+Le script s'occupe de :
+1. Commiter et pusher les modifications locales vers GitHub.
+2. Se connecter au serveur via SSH.
+3. Pull les modifications.
+4. Re-build et redémarrer les containers via `docker-compose`.
 
 ---
-Développé pour la santé de demain.
+Déveloment pour la santé de demain.

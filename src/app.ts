@@ -10,6 +10,7 @@ import { createHealthRouter } from './features/health_metrics/presentation/healt
 import { HealthController } from './features/health_metrics/presentation/health.controller';
 import { HealthService } from './features/health_metrics/application/health.service';
 import { PgHealthMetricRepository } from './features/health_metrics/infrastructure/pg-health.repository';
+import { PdfService } from './shared/infrastructure/services/pdf.service';
 
 import { createReminderRouter } from './features/health_metrics/presentation/reminder.router';
 import { ReminderController } from './features/health_metrics/presentation/reminder.controller';
@@ -32,7 +33,8 @@ export const createApp = () => {
     const authController = new AuthController(authService);
 
     const healthRepository = new PgHealthMetricRepository();
-    const healthService = new HealthService(healthRepository, userRepository);
+    const pdfService = new PdfService();
+    const healthService = new HealthService(healthRepository, userRepository, pdfService);
     const healthController = new HealthController(healthService);
 
     const notificationProvider = new ConsoleNotificationProvider();

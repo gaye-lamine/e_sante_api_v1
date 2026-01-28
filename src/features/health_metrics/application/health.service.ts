@@ -7,14 +7,13 @@ import { PdfService } from '../../../shared/infrastructure/services/pdf.service'
 
 export class HealthService {
     private analyzer: HealthAnalyzer;
-    private pdfService: PdfService;
 
     constructor(
         private healthRepository: HealthMetricRepository,
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        private pdfService: PdfService
     ) {
         this.analyzer = new HealthAnalyzer();
-        this.pdfService = new PdfService();
     }
 
     async addMetric(data: {

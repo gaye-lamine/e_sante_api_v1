@@ -1,14 +1,21 @@
 import { HealthService } from '../health.service';
 import { InMemoryHealthMetricRepository } from '../../infrastructure/in-memory-health.repository';
+import { InMemoryUserRepository } from '../../../auth/infrastructure/in-memory-user.repository';
 import { ValidationError, ForbiddenError } from '../../../../shared/errors/app-error';
 
 describe('HealthService', () => {
     let healthService: HealthService;
     let healthRepository: InMemoryHealthMetricRepository;
+    let userRepository: InMemoryUserRepository;
+    let pdfServiceMock: any;
 
     beforeEach(() => {
         healthRepository = new InMemoryHealthMetricRepository();
-        healthService = new HealthService(healthRepository);
+        userRepository = new InMemoryUserRepository();
+        pdfServiceMock = {
+            generateHealthReport: jest.fn().mockResolvedValue(Buffer.from('mock pdf'))
+        };
+        healthService = new HealthService(healthRepository, userRepository, pdfServiceMock);
     });
 
     it('should add a valid weight metric', async () => {

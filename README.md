@@ -106,12 +106,17 @@ src/
 
 ## CI/CD
 
-Le projet inclut un `Jenkinsfile` prêt pour la production avec les étapes suivantes :
+Le projet inclut des configurations robustes pour l'intégration et le déploiement continus :
+
+- **GitHub Actions** : Automatique sur chaque push et pull request (Lint, Test, Build Docker).
+- **Jenkins** : `Jenkinsfile` prêt pour une infrastructure Jenkins auto-hébergée.
+
+Les étapes automatisées incluent :
 1. Installation des dépendances.
 2. Linting TypeScript.
-3. Tests avec couverture minimale.
+3. Tests avec couverture complète.
 4. Build de l'application.
-5. Dockerisation de l'image de production.
+5. Création de l'image Docker de production.
 
 ---
 Développé pour la santé de demain.

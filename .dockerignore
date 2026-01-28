@@ -5,7 +5,6 @@ dist
 .gitignore
 *.md
 jest.config.js
-tsconfig.json
 Dockerfile
 docker-compose.yml
 Jenkinsfile

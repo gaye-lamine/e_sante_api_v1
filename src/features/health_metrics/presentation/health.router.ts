@@ -22,6 +22,8 @@ export const createHealthRouter = (healthController: HealthController, authServi
 
     router.post('/', validateRequest(addMetricSchema), healthController.addMetric);
     router.get('/', healthController.getMetrics);
+    router.get('/insights', healthController.getInsights);
+    router.get('/export', healthController.exportReport);
     router.delete('/:id', healthController.deleteMetric);
 
     return router;

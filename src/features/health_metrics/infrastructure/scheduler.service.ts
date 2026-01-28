@@ -1,10 +1,14 @@
 import * as cron from 'node-cron';
 import { ReminderRepository } from '../domain/reminder.repository';
+import { NotificationProvider } from '../../../shared/infrastructure/services/notification.service';
 
 export class SchedulerService {
     private jobs: Map<string, any> = new Map();
 
-    constructor(private reminderRepository: ReminderRepository) { }
+    constructor(
+        private reminderRepository: ReminderRepository,
+        private notificationProvider: NotificationProvider
+    ) { }
 
     async initialize() {
         console.log('⏳ Initializing Scheduler Service...');
@@ -40,8 +44,11 @@ export class SchedulerService {
     }
 
     private async executeReminder(id: string, userId: string, metricType: string) {
-        // Staff Engineer approach: Decouple notification logic
-        // For V2.1, we just log to console. Future: call NotificationService
-        console.log(`[REMINDER] [USER:${userId}] It is time to measure your ${metricType}! (ID: ${id})`);
+        await this.notificationProvider.send({
+            userId,
+            title: 'Rappel Santé',
+            message: `Il est temps de prendre votre mesure : ${metricType}`,
+            metadata: { reminderId: id, type: metricType }
+        });
     }
 }

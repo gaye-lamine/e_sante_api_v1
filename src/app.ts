@@ -16,6 +16,7 @@ import { ReminderController } from './features/health_metrics/presentation/remin
 import { ReminderService } from './features/health_metrics/application/reminder.service';
 import { PgReminderRepository } from './features/health_metrics/infrastructure/pg-reminder.repository';
 import { SchedulerService } from './features/health_metrics/infrastructure/scheduler.service';
+import { ConsoleNotificationProvider } from './shared/infrastructure/services/notification.service';
 
 export const createApp = () => {
     const app = express();
@@ -31,11 +32,12 @@ export const createApp = () => {
     const authController = new AuthController(authService);
 
     const healthRepository = new PgHealthMetricRepository();
-    const healthService = new HealthService(healthRepository);
+    const healthService = new HealthService(healthRepository, userRepository);
     const healthController = new HealthController(healthService);
 
+    const notificationProvider = new ConsoleNotificationProvider();
     const reminderRepository = new PgReminderRepository();
-    const schedulerService = new SchedulerService(reminderRepository);
+    const schedulerService = new SchedulerService(reminderRepository, notificationProvider);
     const reminderService = new ReminderService(reminderRepository, schedulerService);
     const reminderController = new ReminderController(reminderService);
 

@@ -48,4 +48,27 @@ export class HealthController {
             next(error);
         }
     };
+
+    getInsights = async (req: Request, res: Response, Next: NextFunction) => {
+        try {
+            const userId = (req as any).user.id;
+            const insights = await this.healthService.getHealthInsights(userId);
+            res.json(insights);
+        } catch (error) {
+            Next(error);
+        }
+    };
+
+    exportReport = async (req: Request, res: Response, Next: NextFunction) => {
+        try {
+            const userId = (req as any).user.id;
+            const buffer = await this.healthService.exportHealthReport(userId);
+
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=health_report_${userId}.pdf`);
+            res.send(buffer);
+        } catch (error) {
+            Next(error);
+        }
+    };
 }

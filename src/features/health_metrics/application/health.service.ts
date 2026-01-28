@@ -1,9 +1,21 @@
 import { HealthMetric, HealthMetricType } from '../domain/health_metric';
 import { HealthMetricRepository } from '../domain/health_metric.repository';
+import { HealthAnalyzer, HealthInsight } from '../domain/services/health-analyzer.service';
 import { NotFoundError, ForbiddenError } from '../../../shared/errors/app-error';
+import { UserRepository } from '../../auth/domain/user.repository';
+import { PdfService } from '../../../shared/infrastructure/services/pdf.service';
 
 export class HealthService {
-    constructor(private healthMetricRepository: HealthMetricRepository) { }
+    private analyzer: HealthAnalyzer;
+    private pdfService: PdfService;
+
+    constructor(
+        private healthRepository: HealthMetricRepository,
+        private userRepository: UserRepository
+    ) {
+        this.analyzer = new HealthAnalyzer();
+        this.pdfService = new PdfService();
+    }
 
     async addMetric(data: {
         userId: string;
@@ -14,16 +26,16 @@ export class HealthService {
         measuredAt: Date;
     }): Promise<HealthMetric> {
         const metric = new HealthMetric(data);
-        await this.healthMetricRepository.save(metric);
+        await this.healthRepository.save(metric);
         return metric;
     }
 
     async getMetricsByUser(userId: string): Promise<HealthMetric[]> {
-        return this.healthMetricRepository.findByUserId(userId);
+        return this.healthRepository.findByUserId(userId);
     }
 
-    async deleteMetric(metricId: string, userId: string): Promise<void> {
-        const metric = await this.healthMetricRepository.findById(metricId);
+    async deleteMetric(id: string, userId: string): Promise<void> {
+        const metric = await this.healthRepository.findById(id);
         if (!metric) {
             throw new NotFoundError('Metric not found');
         }
@@ -32,6 +44,23 @@ export class HealthService {
             throw new ForbiddenError('You can only delete your own metrics');
         }
 
-        await this.healthMetricRepository.delete(metricId);
+        await this.healthRepository.delete(id);
+    }
+
+    async getHealthInsights(userId: string): Promise<HealthInsight[]> {
+        const metrics = await this.healthRepository.findByUserId(userId);
+        const types: HealthMetricType[] = ['weight', 'blood_pressure', 'glucose'];
+
+        return types.map(type => this.analyzer.analyze(metrics, type));
+    }
+
+    async exportHealthReport(userId: string): Promise<Buffer> {
+        const user = await this.userRepository.findById(userId);
+        if (!user) throw new NotFoundError('User not found');
+
+        const metrics = await this.healthRepository.findByUserId(userId);
+        const insights = await this.getHealthInsights(userId);
+
+        return this.pdfService.generateHealthReport(user, metrics, insights);
     }
 }

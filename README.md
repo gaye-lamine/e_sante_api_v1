@@ -1,27 +1,27 @@
-# E-Sante API 🏥
+# E-Sante API
 
 Une API robuste et sécurisée pour le suivi des métriques de santé, conçue avec une architecture propre (Clean Architecture) et suivant les principes du Domain-Driven Design (DDD).
 
-## 🚀 Fonctionnalités
+## Fonctionnalités
 
-- **Authentification JWT** : Inscription et connexion sécurisées.
-- **Gestion des Métriques** : Suivi du poids, de la tension artérielle et du taux de glucose.
-- **Validation stricte** : Utilisation de Zod pour garantir l'intégrité des données.
-- **Architecture Propre** : Séparation claire des responsabilités (Domain, Application, Infrastructure, Presentation).
-- **PostgreSQL** : Persistance des données avec initialisation automatique du schéma.
-- **CI/CD Ready** : Configurations Docker et Jenkins incluses.
+- Authentification JWT : Inscription et connexion sécurisées.
+- Gestion des Métriques : Suivi du poids, de la tension artérielle et du taux de glucose.
+- Validation stricte : Utilisation de Zod pour garantir l'intégrité des données.
+- Architecture Propre : Séparation claire des responsabilités (Domain, Application, Infrastructure, Presentation).
+- PostgreSQL : Persistance des données avec initialisation automatique du schéma.
+- CI/CD Ready : Configurations Docker et Jenkins incluses.
 
-## 🛠️ Stack Technique
+## Stack Technique
 
-- **Runtime** : Node.js
-- **Langage** : TypeScript
-- **Framework Web** : Express.js
-- **Base de données** : PostgreSQL
-- **Validation** : Zod
-- **Tests** : Jest & Supertest
-- **DevOps** : Docker, Docker Compose, Jenkins
+- Runtime : Node.js
+- Langage : TypeScript
+- Framework Web : Express.js
+- Base de données : PostgreSQL
+- Validation : Zod
+- Tests : Jest & Supertest
+- DevOps : Docker, Docker Compose, Jenkins
 
-## 📦 Installation et Lancement
+## Installation et Lancement
 
 ### Prérequis
 
@@ -61,7 +61,7 @@ npm run dev
 docker-compose up --build
 ```
 
-## 🧪 Tests et Qualité
+## Tests et Qualité
 
 ### Exécuter les tests unitaires et d'intégration
 
@@ -81,7 +81,7 @@ npm run test:coverage
 npm run lint
 ```
 
-## 🏗️ Architecture du Projet
+## Architecture du Projet
 
 ```text
 src/
@@ -93,7 +93,7 @@ src/
 └── server.ts            # Point d'entrée du serveur
 ```
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Authentification
 - `POST /auth/register` : Créer un nouveau compte.
@@ -104,7 +104,7 @@ src/
 - `POST /metrics` : Ajouter une nouvelle métrique (poids, tension, glucose).
 - `DELETE /metrics/:id` : Supprimer une métrique.
 
-## 🚢 CI/CD
+## CI/CD
 
 Le projet inclut un `Jenkinsfile` prêt pour la production avec les étapes suivantes :
 1. Installation des dépendances.
@@ -114,4 +114,4 @@ Le projet inclut un `Jenkinsfile` prêt pour la production avec les étapes suiv
 5. Dockerisation de l'image de production.
 
 ---
-Développé avec ❤️ pour la santé de demain.
+Développé pour la santé de demain.

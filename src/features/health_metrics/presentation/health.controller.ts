@@ -51,7 +51,7 @@ export class HealthController {
 
     getInsights = async (req: Request, res: Response, Next: NextFunction) => {
         try {
-            const userId = (req as any).user.id;
+            const userId = req.user!.userId;
             const insights = await this.healthService.getHealthInsights(userId);
             res.json(insights);
         } catch (error) {
@@ -61,7 +61,7 @@ export class HealthController {
 
     exportReport = async (req: Request, res: Response, Next: NextFunction) => {
         try {
-            const userId = (req as any).user.id;
+            const userId = req.user!.userId;
             const buffer = await this.healthService.exportHealthReport(userId);
 
             res.setHeader('Content-Type', 'application/pdf');

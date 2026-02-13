@@ -35,20 +35,20 @@ export class Reminder {
 
     private validate(props: ReminderProps) {
         if (!props.userId) {
-            throw new ValidationError('User ID is required for a reminder');
+            throw new ValidationError('L\'ID utilisateur est requis pour un rappel');
         }
         if (!props.metricType) {
-            throw new ValidationError('Metric type is required for a reminder');
+            throw new ValidationError('Le type de mesure est requis pour un rappel');
         }
         if (!props.cronSchedule) {
-            throw new ValidationError('Cron schedule is required');
+            throw new ValidationError('La planification est requise');
         }
 
         // Basic cron validation (5 or 6 parts)
         const cronRegex = /^(\*|([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])|\*\/([0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])) (\*|([0-9]|1[0-9]|2[0-3])|\*\/([0-9]|1[0-9]|2[0-3])) (\*|([1-9]|1[0-9]|2[0-9]|3[0-1])|\*\/([1-9]|1[0-9]|2[0-9]|3[0-1])) (\*|([1-9]|1[0-2])|\*\/([1-9]|1[0-2])) (\*|([0-6])|\*\/([0-6]))$/;
         // Simple validation for the sake of the MVP domain rules
         if (props.cronSchedule.split(' ').length < 5) {
-            throw new ValidationError('Invalid cron schedule format');
+            throw new ValidationError('Format de planification invalide');
         }
     }
 }

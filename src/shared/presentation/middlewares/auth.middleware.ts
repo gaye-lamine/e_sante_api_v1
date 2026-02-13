@@ -14,7 +14,7 @@ export const authMiddleware = (authService: AuthService) => {
     return (req: Request, res: Response, next: NextFunction) => {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            throw new UnauthorizedError('Missing or malformed token');
+            throw new UnauthorizedError('Jeton manquant ou malformé');
         }
 
         const token = authHeader.split(' ')[1];

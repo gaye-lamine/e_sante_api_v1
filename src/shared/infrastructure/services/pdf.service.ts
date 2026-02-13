@@ -14,10 +14,10 @@ export class PdfService {
             doc.on('error', (err) => reject(err));
 
             // Header
-            doc.fontSize(25).text('E-Sante Health Report', { align: 'center' });
+            doc.fontSize(25).text('Rapport de Santé E-Sante', { align: 'center' });
             doc.moveDown();
-            doc.fontSize(12).text(`Report Generated: ${new Date().toLocaleDateString()}`, { align: 'right' });
-            doc.text(`Patient: ${user.name} (${user.email})`, { align: 'right' });
+            doc.fontSize(12).text(`Rapport généré le : ${new Date().toLocaleDateString()}`, { align: 'right' });
+            doc.text(`Patient : ${user.name} (${user.email})`, { align: 'right' });
             doc.moveDown();
 
             // Divider
@@ -25,7 +25,7 @@ export class PdfService {
             doc.moveDown();
 
             // Insights Section
-            doc.fontSize(18).text('Health Insights & Trends', { underline: true });
+            doc.fontSize(18).text('Analyses et Tendances', { underline: true });
             doc.moveDown();
             insights.forEach(insight => {
                 doc.fontSize(14).fillColor('#2c3e50').text(`${insight.type.toUpperCase()}:`, { continued: true });
@@ -35,7 +35,7 @@ export class PdfService {
             doc.moveDown();
 
             // Metrics History Section
-            doc.fontSize(18).text('Detailed Measurement History', { underline: true });
+            doc.fontSize(18).text('Historique détaillé des mesures', { underline: true });
             doc.moveDown();
 
             metrics.sort((a, b) => b.measuredAt.getTime() - a.measuredAt.getTime()).forEach(m => {
@@ -59,7 +59,7 @@ export class PdfService {
             for (let i = range.start; i < range.start + range.count; i++) {
                 doc.switchToPage(i);
                 doc.fontSize(10).text(
-                    `Page ${i + 1} of ${range.count}`,
+                    `Page ${i + 1} sur ${range.count}`,
                     0,
                     doc.page.height - 20,
                     { align: 'center' }

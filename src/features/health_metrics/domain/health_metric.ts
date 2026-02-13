@@ -41,17 +41,17 @@ export class HealthMetric {
 
     private validate(props: HealthMetricProps) {
         if (props.type === 'weight' && (!props.value || props.value <= 0)) {
-            throw new ValidationError('Weight must be greater than 0');
+            throw new ValidationError('Le poids doit être supérieur à 0');
         }
         if (props.type === 'glucose' && (!props.value || props.value <= 0)) {
-            throw new ValidationError('Glucose must be greater than 0');
+            throw new ValidationError('Le taux de glucose doit être supérieur à 0');
         }
         if (props.type === 'blood_pressure') {
             if (!props.systolic || props.systolic <= 0) {
-                throw new ValidationError('Systolic pressure must be greater than 0');
+                throw new ValidationError('La pression systolique doit être supérieure à 0');
             }
             if (!props.diastolic || props.diastolic <= 0) {
-                throw new ValidationError('Diastolic pressure must be greater than 0');
+                throw new ValidationError('La pression diastolique doit être supérieure à 0');
             }
         }
     }

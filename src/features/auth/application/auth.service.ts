@@ -12,7 +12,7 @@ export class AuthService {
     async register(name: string, email: string, password: string): Promise<{ user: Omit<User, 'passwordHash'>; token: string }> {
         const existingUser = await this.userRepository.findByEmail(email);
         if (existingUser) {
-            throw new ValidationError('Email already in use');
+            throw new ValidationError('Cet email est déjà utilisé');
         }
 
         const passwordHash = await bcrypt.hash(password, 10);
@@ -29,12 +29,12 @@ export class AuthService {
     async login(email: string, password: string): Promise<{ user: Omit<User, 'passwordHash'>; token: string }> {
         const user = await this.userRepository.findByEmail(email);
         if (!user) {
-            throw new UnauthorizedError('Invalid credentials');
+            throw new UnauthorizedError('Identifiants invalides');
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
         if (!isPasswordValid) {
-            throw new UnauthorizedError('Invalid credentials');
+            throw new UnauthorizedError('Identifiants invalides');
         }
 
         const token = this.generateToken(user.id);
@@ -51,7 +51,7 @@ export class AuthService {
         try {
             return jwt.verify(token, this.jwtSecret) as { userId: string };
         } catch (error) {
-            throw new UnauthorizedError('Invalid or expired token');
+            throw new UnauthorizedError('Jeton invalide ou expiré');
         }
     }
 }

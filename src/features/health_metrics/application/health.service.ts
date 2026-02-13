@@ -36,11 +36,11 @@ export class HealthService {
     async deleteMetric(id: string, userId: string): Promise<void> {
         const metric = await this.healthRepository.findById(id);
         if (!metric) {
-            throw new NotFoundError('Metric not found');
+            throw new NotFoundError('Mesure non trouvée');
         }
 
         if (metric.userId !== userId) {
-            throw new ForbiddenError('You can only delete your own metrics');
+            throw new ForbiddenError('Vous ne pouvez supprimer que vos propres mesures');
         }
 
         await this.healthRepository.delete(id);
@@ -55,7 +55,7 @@ export class HealthService {
 
     async exportHealthReport(userId: string): Promise<Buffer> {
         const user = await this.userRepository.findById(userId);
-        if (!user) throw new NotFoundError('User not found');
+        if (!user) throw new NotFoundError('Utilisateur non trouvé');
 
         const metrics = await this.healthRepository.findByUserId(userId);
         const insights = await this.getHealthInsights(userId);

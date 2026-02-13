@@ -21,7 +21,7 @@ export class HealthAnalyzer {
                 type,
                 average: 0,
                 trend: 'unknown',
-                message: `No data available for ${type}`
+                message: `Aucune donnée disponible pour ${type}`
             };
         }
 
@@ -75,6 +75,8 @@ export class HealthAnalyzer {
             else if (latestSys < prevSys) trend = 'decreasing';
         }
 
+        const trendLabel = trend === 'increasing' ? 'en hausse' : trend === 'decreasing' ? 'en baisse' : 'stable';
+
         return {
             type: 'blood_pressure',
             average: {
@@ -82,13 +84,14 @@ export class HealthAnalyzer {
                 diastolic: parseFloat(avgDiastolic.toFixed(2))
             },
             trend,
-            message: `Your average blood pressure is ${avgSystolic.toFixed(0)}/${avgDiastolic.toFixed(0)}. The trend is ${trend}.`
+            message: `Votre tension artérielle moyenne est de ${avgSystolic.toFixed(0)}/${avgDiastolic.toFixed(0)}. La tendance est ${trendLabel}.`
         };
     }
 
     private generateMessage(type: string, trend: Trend, delta?: number): string {
-        const direction = trend === 'increasing' ? 'up' : trend === 'decreasing' ? 'down' : 'stable';
-        const deltaText = delta !== undefined ? ` by ${Math.abs(delta).toFixed(1)}%` : '';
-        return `Your ${type} trend is ${direction}${deltaText} compared to the last measurement.`;
+        const typeLabel = type === 'weight' ? 'poids' : type === 'glucose' ? 'glucose' : type;
+        const direction = trend === 'increasing' ? 'à la hausse' : trend === 'decreasing' ? 'à la baisse' : 'stable';
+        const deltaText = delta !== undefined ? ` de ${Math.abs(delta).toFixed(1)}%` : '';
+        return `Votre tendance de ${typeLabel} est ${direction}${deltaText} par rapport à la dernière mesure.`;
     }
 }

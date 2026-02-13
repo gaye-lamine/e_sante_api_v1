@@ -26,10 +26,10 @@ export class ReminderService {
     async deleteReminder(id: string, userId: string): Promise<void> {
         const reminder = await this.reminderRepository.findById(id);
         if (!reminder) {
-            throw new Error('Reminder not found');
+            throw new Error('Rappel non trouvé');
         }
         if (reminder.userId !== userId) {
-            throw new Error('Unauthorized to delete this reminder');
+            throw new Error('Non autorisé à supprimer ce rappel');
         }
         await this.reminderRepository.delete(id);
     }
@@ -37,10 +37,10 @@ export class ReminderService {
     async toggleReminder(id: string, userId: string): Promise<Reminder> {
         const reminder = await this.reminderRepository.findById(id);
         if (!reminder) {
-            throw new Error('Reminder not found');
+            throw new Error('Rappel non trouvé');
         }
         if (reminder.userId !== userId) {
-            throw new Error('Unauthorized to modify this reminder');
+            throw new Error('Non autorisé à modifier ce rappel');
         }
 
         const updatedReminder = new Reminder({
